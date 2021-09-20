@@ -5,6 +5,21 @@ public class Employee {
 	private String employeeUsername;
 	private String employeePassword;
 	
+	// Default Constructor
+	public Employee(){
+		this.employeeId = -1;
+		this.employeeUsername = null;
+		this.employeePassword = null;
+	}
+
+	// Parameterized constructor
+	public Employee(int employeeId, String employeeUsername, String employeePassword) {
+		this.employeeId = employeeId;
+		this.employeeUsername = employeeUsername;
+		this.employeePassword = employeePassword;
+	}
+	
+	/// Setter and getter method
 	public int getEmployeeId() {
 		return employeeId;
 	}
