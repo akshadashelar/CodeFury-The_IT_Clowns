@@ -14,7 +14,7 @@ public class EmployeeDaoImpl implements EmployeeDao{
 	static {
 		conn = DBUtil.getConnection();
 		try {
-			loginId = conn.prepareStatement("SELECT * FROM Employee WHERE employee_id=? AND password=?");
+			loginId = conn.prepareStatement("SELECT * FROM tbl_employee WHERE employee_id=? AND password=?");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -23,7 +23,7 @@ public class EmployeeDaoImpl implements EmployeeDao{
 	@Override
 	public Employee loginUsingId(int id, String password) throws SQLException, EmployeeNotFoundException {
 		loginId.setInt(1, id);
-		loginId.setString(1, password);
+		loginId.setString(2, password);
 		ResultSet rs = loginId.executeQuery();
 		if(rs.next())
 			return new Employee(rs.getInt(1),rs.getString(2),rs.getString(3));

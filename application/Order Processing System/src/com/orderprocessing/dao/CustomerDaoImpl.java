@@ -14,8 +14,8 @@ public class CustomerDaoImpl implements CustomerDao{
 	static {
 		conn = DBUtil.getConnection();
 		try {
-			loginId = conn.prepareStatement("SELECT * FROM Customer WHERE customer_id=? AND password=?");
-			loginName = conn.prepareStatement("SELECT * FROM Customer WHERE name=? AND password=?");
+			loginId = conn.prepareStatement("SELECT * FROM tbl_customer WHERE customer_id=? AND password=?");
+			loginName = conn.prepareStatement("SELECT * FROM tbl_customer WHERE name=? AND password=?");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -24,7 +24,7 @@ public class CustomerDaoImpl implements CustomerDao{
 	@Override
 	public Customer loginUsingId(int id, String password) throws SQLException, CustomerNotFoundException {
 		loginId.setInt(1, id);
-		loginId.setString(1, password);
+		loginId.setString(2, password);
 		ResultSet rs = loginId.executeQuery();
 		if(rs.next())
 			return new Customer(rs.getInt(1),rs.getString(2),rs.getString(4),rs.getString(5),rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9));
@@ -34,7 +34,7 @@ public class CustomerDaoImpl implements CustomerDao{
 	@Override
 	public Customer loginUsingName(String name, String password) throws SQLException, CustomerNotFoundException {
 		loginName.setString(1, name);
-		loginName.setString(1, password);
+		loginName.setString(2, password);
 		ResultSet rs = loginName.executeQuery();
 		if(rs.next())
 			return new Customer(rs.getInt(1),rs.getString(2),rs.getString(4),rs.getString(5),rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9));

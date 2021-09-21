@@ -15,7 +15,7 @@ import com.orderprocessing.exception.EmployeeNotFoundException;
 import com.orderprocessing.service.EmployeeService;
 import com.orderprocessing.service.EmployeeServiceImpl;
 
-@WebServlet("/EmployeeServlet")
+@WebServlet("/EmployeeController")
 public class EmployeeController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
