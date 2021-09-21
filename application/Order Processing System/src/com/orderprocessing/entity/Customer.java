@@ -3,13 +3,39 @@ package com.orderprocessing.entity;
 public class Customer {
 	private int customerId;
 	private String customerName;
-	private int customerGSTNumber;
 	private String customerAddress;
-	private String customerCity;
 	private String customerEmail;
-	private String customerPhone;
+	private String customerCity;
+	private String customerGSTNumber;
 	private String customerPincode;
+	private String customerPhone;
 	
+	// Default constructor
+	public Customer() {
+		this.customerId = -1;
+		this.customerName = null;
+		this.customerAddress = null;
+		this.customerEmail = null;
+		this.customerCity = null;
+		this.customerGSTNumber = null;
+		this.customerPincode = null;
+		this.customerPhone = null;
+	}
+	
+	// Parameterized constructor
+	public Customer(int id, String name, String address, String email, String city, String gst_number, String pincode, String phone) {
+		this.customerId = id;
+		this.customerName = name;
+		this.customerAddress = address;
+		this.customerEmail = email;
+		this.customerCity = city;
+		this.customerGSTNumber = gst_number;
+		this.customerPincode = pincode;
+		this.customerPhone = phone;
+	}
+	
+	
+	/// Setter and getter methods
 	public int getCustomerId() {
 		return customerId;
 	}
@@ -26,11 +52,11 @@ public class Customer {
 		this.customerName = customerName;
 	}
 	
-	public int getCustomerGSTNumber() {
+	public String getCustomerGSTNumber() {
 		return customerGSTNumber;
 	}
 	
-	public void setCustomerGSTNumber(int customerGSTNumber) {
+	public void setCustomerGSTNumber(String customerGSTNumber) {
 		this.customerGSTNumber = customerGSTNumber;
 	}
 	
