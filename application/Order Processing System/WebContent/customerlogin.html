@@ -20,7 +20,7 @@
     <br><br>
     <div>
         <!-- Form for id and password -->
-        <form action="">
+        <form action="CustomerController" method="POST" id="custform">
             <div>
                 <input class="input" type="text" placeholder="Customer Id" name="cname" required>  
             </div>
@@ -34,7 +34,7 @@
     <div>
         <!-- Customer Login Button -->
 
-        <button class="button-login button-txt"> 
+        <button class="button-login button-txt" form="custform" value="submit"> 
                 Login</button>
         </div>
 

@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.orderprocessing.entity.Employee;
 import com.orderprocessing.exception.EmployeeNotFoundException;
@@ -26,12 +27,20 @@ public class EmployeeController extends HttpServlet {
 		int eid = Integer.parseInt(request.getParameter("ename"));
 		String pass = request.getParameter("epswd");
 		
+		RequestDispatcher rd = null;
 		try {
 			employee = employeeService.loginEmployee(eid, pass);
+			System.out.println("Login Successful");
+			
+			HttpSession session = request.getSession();
+			session.setAttribute("user", employee);
+			
+			rd = request.getRequestDispatcher("employeeordermanagement.html");
+			rd.forward(request, response);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch(EmployeeNotFoundException e) {
-			RequestDispatcher rd = request.getRequestDispatcher("employeelogin.html");
+			rd = request.getRequestDispatcher("employeelogin.html");
 			rd.forward(request, response);
 		}
 		// TODO: forward employee obj to jsp page

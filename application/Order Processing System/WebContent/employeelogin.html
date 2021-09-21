@@ -20,7 +20,7 @@
     <br><br>
     <div>
         <!-- Form for id and password -->
-        <form action="">
+        <form action="EmployeeController" method="POST" id="empform">
             <div>
                 <input class="input" type="text" placeholder="Employee Id" name="ename" required>  
             </div>
@@ -34,7 +34,7 @@
     <div>
         <!-- Employee Login Button -->
 
-        <button class="button-login button-txt"> 
+        <button class="button-login button-txt" form="empform" value="submit"> 
                 Login</button>
         </div>
 
