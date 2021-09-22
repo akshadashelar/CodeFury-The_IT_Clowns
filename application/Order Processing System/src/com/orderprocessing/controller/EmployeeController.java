@@ -35,7 +35,9 @@ public class EmployeeController extends HttpServlet {
 			HttpSession session = request.getSession();
 			session.setAttribute("user", employee);
 			
-			rd = request.getRequestDispatcher("employeeordermanagement.html");
+			//rd = request.getRequestDispatcher("employeeordermanagement.html");
+			request.setAttribute("operation", "emporder");
+			rd = request.getRequestDispatcher("OrderController");
 			rd.forward(request, response);
 		} catch (SQLException e) {
 			e.printStackTrace();

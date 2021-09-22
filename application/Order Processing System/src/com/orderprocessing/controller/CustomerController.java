@@ -33,7 +33,9 @@ public class CustomerController extends HttpServlet {
 			HttpSession session = request.getSession();
 			session.setAttribute("user", customer);
 			
-			rd = request.getRequestDispatcher("customerordermanagement.html");
+			//rd = request.getRequestDispatcher("customerordermanagement.html");
+			request.setAttribute("operation", "custorder");
+			rd = request.getRequestDispatcher("OrderController");
 			rd.forward(request, response);
 		} catch (SQLException e) {
 			e.printStackTrace();
