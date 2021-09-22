@@ -1,10 +1,13 @@
 package com.orderprocessing.service;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.orderprocessing.dao.CustomerDao;
 import com.orderprocessing.dao.CustomerDaoImpl;
 import com.orderprocessing.entity.Customer;
+import com.orderprocessing.entity.Order;
 import com.orderprocessing.exception.CustomerNotFoundException;
 
 public class CustomerServiceImpl implements CustomerService{
@@ -28,4 +31,13 @@ public class CustomerServiceImpl implements CustomerService{
 		}
 	}
 	
+	@Override
+	public List<Order> fetchQuotesByCustomerId(int custId) throws SQLException {
+		return (ArrayList<Order>) customerDao.getQuotesWithoutProductListByCustomerId(custId);
+	}
+	
+	@Override
+	public List<Order> fetchOrdersByCustomerId(int custId) throws SQLException {
+		return (ArrayList<Order>) customerDao.getOrdersWithoutProductListByCustomerId(custId);
+	}
 }
