@@ -86,8 +86,8 @@
                         <tr>
                             <td ><%=o.getOrderId() %></td>
                             <td><%=o.getOrderDate() %></td>
-                            <td><%=o.getCustomerShippingAddress() %></td>  
-                            <td><%=o.getOrderValue() %></td> 
+                            <td><%=o.getOrderValue() %></td>
+                            <td><%=o.getShippingCost() %></td>  
                             <td><%=o.getStatus() %></td>   
                              <% if(o.getStatus()== OrderStatus.Approved){%>
                             	<td><button class="approved">Show Invoice</button></td>
