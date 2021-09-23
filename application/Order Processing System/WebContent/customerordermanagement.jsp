@@ -34,8 +34,8 @@
                     
                    <!--  -----------------fetching quotes--------------------------- -->
                    
-                  <%  List<Order> displayOrders = (List<Order>)request.getAttribute("customerQuotes");
-                   	for(Order q:displayOrders){
+                  <%  List<Order> displayQuotes = (List<Order>)request.getAttribute("customerQuotes");
+                   	for(Order q:displayQuotes){
                    		
                    %>
                    	
