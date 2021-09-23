@@ -40,6 +40,7 @@ public class OrderController extends HttpServlet{
 			try {
 				List<Order> allOrders = employeeService.fetchAllOrders();
 				
+				request.setAttribute("allOrders", allOrders);
 				rd = request.getRequestDispatcher("employeeordermanagement.html");
 				rd.forward(request, response);
 			} catch (SQLException e) {
@@ -58,6 +59,8 @@ public class OrderController extends HttpServlet{
 				List<Order> customerOrders = customerService.fetchOrdersByCustomerId(customerId);
 				List<Order> customerQuotes = customerService.fetchQuotesByCustomerId(customerId);
 				
+				request.setAttribute("customerOrders", customerOrders);
+				request.setAttribute("customerQuotes", customerQuotes);
 				rd = request.getRequestDispatcher("customerordermanagement.html");
 				rd.forward(request, response);
 			} catch (SQLException e) {
