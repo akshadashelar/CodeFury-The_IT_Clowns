@@ -40,7 +40,7 @@ public class CustomerController extends HttpServlet {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch(CustomerNotFoundException e) {
-			rd = request.getRequestDispatcher("customerlogin.html");
+			rd = request.getRequestDispatcher("customerlogin.jsp");
 			rd.forward(request, response);
 		}
 		// TODO: forward customer obj to jsp page

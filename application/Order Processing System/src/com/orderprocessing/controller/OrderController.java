@@ -61,7 +61,7 @@ public class OrderController extends HttpServlet{
 				
 				request.setAttribute("customerOrders", customerOrders);
 				request.setAttribute("customerQuotes", customerQuotes);
-				rd = request.getRequestDispatcher("customerordermanagement.html");
+				rd = request.getRequestDispatcher("customerordermanagement.jsp");
 				rd.forward(request, response);
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block

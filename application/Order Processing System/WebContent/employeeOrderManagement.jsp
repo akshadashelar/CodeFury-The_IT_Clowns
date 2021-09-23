@@ -49,9 +49,9 @@
                             <td><%=o.getCustomerShippingAddress() %></td>  
                             <td><%=o.getOrderValue() %></td> 
                             <td><%=o.getStatus() %></td>   
-                            <% if(o.getStatus()== OrderStatus.Approved){%>
+                             <% if(o.getStatus()== OrderStatus.Approved){%>
                             	<td><button class="approved">Invoice</button></td>
-                           <% }%> 
+                           <% }%>
                                          
                             
                         </tr>
