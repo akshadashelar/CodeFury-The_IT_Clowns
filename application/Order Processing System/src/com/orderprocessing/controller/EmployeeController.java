@@ -42,7 +42,7 @@ public class EmployeeController extends HttpServlet {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch(EmployeeNotFoundException e) {
-			rd = request.getRequestDispatcher("employeelogin.html");
+			rd = request.getRequestDispatcher("employeeLogin.jsp");
 			rd.forward(request, response);
 		}
 		// TODO: forward employee obj to jsp page

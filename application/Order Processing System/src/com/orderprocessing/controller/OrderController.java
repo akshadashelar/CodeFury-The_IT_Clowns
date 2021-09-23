@@ -41,7 +41,7 @@ public class OrderController extends HttpServlet{
 				List<Order> allOrders = employeeService.fetchAllOrders();
 				
 				request.setAttribute("allOrders", allOrders);
-				rd = request.getRequestDispatcher("employeeordermanagement.html");
+				rd = request.getRequestDispatcher("employeeOrderManagement.jsp");
 				rd.forward(request, response);
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
