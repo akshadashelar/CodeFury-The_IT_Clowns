@@ -18,6 +18,8 @@ import com.orderprocessing.service.CustomerService;
 import com.orderprocessing.service.CustomerServiceImpl;
 import com.orderprocessing.service.EmployeeService;
 import com.orderprocessing.service.EmployeeServiceImpl;
+import com.orderprocessing.service.OrderService;
+import com.orderprocessing.service.OrderServiceImpl;
 
 @WebServlet("/OrderController")
 public class OrderController extends HttpServlet{
@@ -32,13 +34,13 @@ public class OrderController extends HttpServlet{
 		String operation = request.getAttribute("operation").toString();
 		RequestDispatcher rd = null;
 		HttpSession session = request.getSession();
+		OrderService orderService = new OrderServiceImpl();
 		
 		if(operation.equals("emporder")) {
 			
 			System.out.println("In Order Controller; operation = emporder");
-			EmployeeService employeeService = new EmployeeServiceImpl();
 			try {
-				List<Order> allOrders = employeeService.fetchAllOrders();
+				List<Order> allOrders = orderService.fetchAllOrders();
 				
 				request.setAttribute("allOrders", allOrders);
 				rd = request.getRequestDispatcher("employeeOrderManagement.jsp");
@@ -54,10 +56,9 @@ public class OrderController extends HttpServlet{
 			System.out.println("In Order Controller; operation = custorder");
 			Customer currentCustomer = (Customer) session.getAttribute("user");
 			int customerId = currentCustomer.getCustomerId();
-			CustomerService customerService = new CustomerServiceImpl();
 			try {
-				List<Order> customerOrders = customerService.fetchOrdersByCustomerId(customerId);
-				List<Order> customerQuotes = customerService.fetchQuotesByCustomerId(customerId);
+				List<Order> customerOrders = orderService.fetchOrdersByCustomerId(customerId);
+				List<Order> customerQuotes = orderService.fetchQuotesByCustomerId(customerId);
 				
 				request.setAttribute("customerOrders", customerOrders);
 				request.setAttribute("customerQuotes", customerQuotes);

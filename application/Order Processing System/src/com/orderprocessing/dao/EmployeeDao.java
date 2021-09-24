@@ -9,5 +9,4 @@ import com.orderprocessing.exception.EmployeeNotFoundException;
 
 public interface EmployeeDao {
 	Employee loginUsingId(int id, String password) throws SQLException, EmployeeNotFoundException;
-	List<Order> getAllOrdersWithoutProductList() throws SQLException;
 }

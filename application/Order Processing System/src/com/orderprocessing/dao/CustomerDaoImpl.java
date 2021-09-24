@@ -14,18 +14,38 @@ import com.orderprocessing.util.OrderStatus;
 
 public class CustomerDaoImpl implements CustomerDao{
 	private static Connection conn;
-	private static PreparedStatement loginId, loginName, selectOrdersByCustId, selectQuotesByCustId;
+	private static PreparedStatement selectCustById, selectCustByName, loginId, loginName;
 	
 	static {
 		conn = DBUtil.getConnection();
 		try {
+			selectCustById = conn.prepareStatement("SELECT * FROM tbl_customer WHERE customer_id=?");
+			selectCustByName = conn.prepareStatement("SELECT * FROM tbl_customer WHERE name=?");
 			loginId = conn.prepareStatement("SELECT * FROM tbl_customer WHERE customer_id=? AND password=?");
 			loginName = conn.prepareStatement("SELECT * FROM tbl_customer WHERE name=? AND password=?");
-			selectOrdersByCustId = conn.prepareStatement("SELECT * FROM tbl_order where customer_id=? AND status IN (?,?)");
-			selectQuotesByCustId = conn.prepareStatement("SELECT * FROM tbl_order where customer_id=? AND status=?");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	// Get Customer by Id
+	@Override
+	public Customer getCustomerById(int id) throws SQLException, CustomerNotFoundException {
+		selectCustById.setInt(1, id);
+		ResultSet rs = selectCustById.executeQuery();
+		if(rs.next())
+			return new Customer(rs.getInt(1),rs.getString(2),rs.getString(4),rs.getString(5),rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9));
+		throw new CustomerNotFoundException("Customer not found or Invalid credentials");
+	}
+	
+	// Get Customer by Name
+	@Override
+	public Customer getCustomerByName(String name) throws SQLException, CustomerNotFoundException {
+		selectCustByName.setString(1, name);
+		ResultSet rs = selectCustByName.executeQuery();
+		if(rs.next())
+			return new Customer(rs.getInt(1),rs.getString(2),rs.getString(4),rs.getString(5),rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9));
+		throw new CustomerNotFoundException("Customer not found or Invalid credentials");
 	}
 	
 	// Check customer id and password, return customer object
@@ -48,29 +68,6 @@ public class CustomerDaoImpl implements CustomerDao{
 		if(rs.next())
 			return new Customer(rs.getInt(1),rs.getString(2),rs.getString(4),rs.getString(5),rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9));
 		throw new CustomerNotFoundException("Customer not found  or Invalid credentials");
-	}
-	
-	@Override
-	public List<Order> getOrdersWithoutProductListByCustomerId(int id) throws SQLException{
-		List<Order> orderList = new ArrayList<>();
-		selectOrdersByCustId.setInt(1, id);
-		selectOrdersByCustId.setString(2, OrderStatus.Approved.toString());
-		selectOrdersByCustId.setString(3, OrderStatus.Completed.toString());
-		ResultSet rs = selectOrdersByCustId.executeQuery();
-		while(rs.next())
-			orderList.add(new Order(rs.getInt(1), rs.getDate(2), rs.getInt(3), rs.getString(4), rs.getFloat(5), rs.getFloat(6), rs.getString(7), OrderStatus.valueOf(rs.getString(8))));
-		return orderList;
-	}
-	
-	@Override
-	public List<Order> getQuotesWithoutProductListByCustomerId(int id) throws SQLException{
-		List<Order> orderList = new ArrayList<>();
-		selectQuotesByCustId.setInt(1, id);
-		selectQuotesByCustId.setString(2, OrderStatus.Pending.toString());
-		ResultSet rs = selectQuotesByCustId.executeQuery();
-		while(rs.next())
-			orderList.add(new Order(rs.getInt(1), rs.getDate(2), rs.getInt(3), rs.getString(4), rs.getFloat(5), rs.getFloat(6), rs.getString(7), OrderStatus.valueOf(rs.getString(8))));
-		return orderList;
 	}
 	
 }

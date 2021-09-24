@@ -30,14 +30,4 @@ public class CustomerServiceImpl implements CustomerService{
 			return customerDao.loginUsingName(name_or_id, password);
 		}
 	}
-	
-	@Override
-	public List<Order> fetchQuotesByCustomerId(int custId) throws SQLException {
-		return (ArrayList<Order>) customerDao.getQuotesWithoutProductListByCustomerId(custId);
-	}
-	
-	@Override
-	public List<Order> fetchOrdersByCustomerId(int custId) throws SQLException {
-		return (ArrayList<Order>) customerDao.getOrdersWithoutProductListByCustomerId(custId);
-	}
 }

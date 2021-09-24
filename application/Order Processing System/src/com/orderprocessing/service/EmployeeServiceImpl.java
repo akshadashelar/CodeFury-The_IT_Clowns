@@ -22,9 +22,4 @@ public class EmployeeServiceImpl implements EmployeeService{
 	public Employee loginEmployee(int eid, String password) throws SQLException, EmployeeNotFoundException {
 		return employeeDao.loginUsingId(eid, password);
 	}
-	
-	@Override
-	public List<Order> fetchAllOrders() throws SQLException {
-		return (ArrayList<Order>) employeeDao.getAllOrdersWithoutProductList();
-	}
 }

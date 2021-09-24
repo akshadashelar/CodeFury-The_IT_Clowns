@@ -9,6 +9,4 @@ import com.orderprocessing.exception.EmployeeNotFoundException;
 
 public interface EmployeeService {
 	Employee loginEmployee(int eid, String password) throws SQLException, EmployeeNotFoundException;
-
-	List<Order> fetchAllOrders() throws SQLException;
 }

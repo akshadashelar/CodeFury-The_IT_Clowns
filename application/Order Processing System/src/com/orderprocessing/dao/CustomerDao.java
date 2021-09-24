@@ -8,8 +8,8 @@ import com.orderprocessing.entity.Order;
 import com.orderprocessing.exception.CustomerNotFoundException;
 
 public interface CustomerDao {
+	Customer getCustomerById(int id) throws SQLException, CustomerNotFoundException;
+	Customer getCustomerByName(String name) throws SQLException, CustomerNotFoundException;
 	Customer loginUsingId(int id, String password) throws SQLException, CustomerNotFoundException;
 	Customer loginUsingName(String name, String password) throws SQLException, CustomerNotFoundException;
-	List<Order> getOrdersWithoutProductListByCustomerId(int id) throws SQLException;
-	List<Order> getQuotesWithoutProductListByCustomerId(int id) throws SQLException;
 }
