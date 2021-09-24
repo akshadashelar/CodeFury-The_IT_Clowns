@@ -6,6 +6,23 @@ public class Product {
 	private float productPrice;
 	private int productCategory;
 	
+	// Default Constructor
+	public Product() {
+		this.productId = -1;
+		this.productName = null;
+		this.productPrice = -1;
+		this.productCategory = -1;
+	}
+	
+	// Parameterized constructor
+	public Product(int productId, String productName, float productPrice, int productCategory) {
+		this.productId = productId;
+		this.productName = productName;
+		this.productPrice = productPrice;
+		this.productCategory = productCategory;
+	}
+
+	/// Setter and Getter methods
 	public int getProductId() {
 		return productId;
 	}
