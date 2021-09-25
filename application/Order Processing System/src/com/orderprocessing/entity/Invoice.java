@@ -1,29 +1,42 @@
 package com.orderprocessing.entity;
 
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.Calendar;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.orderprocessing.util.GSTType;
 import com.orderprocessing.util.InvoiceStatus;
 
 public class Invoice {
 	private int invoiceId;
-	private Calendar invoiceDate;
+	private Date invoiceDate;
 	private int orderId;
 	private int customerId;
-	private List<Product> products;
-	private List<Float> gstPerProduct;
+	private Map<Product, Integer> products;
 	private float totalGST;
 	private GSTType typeOfGST;
 	private float totalInvoiceValue;
 	private InvoiceStatus status;
 	
+	// Default constructor
 	public Invoice() {
-		this.products = new ArrayList<Product>();
-		this.gstPerProduct = new ArrayList<Float>();
+		this.products = null;
+	}
+	
+	// Parameterized Constructor - without products map, totalGST
+	public Invoice(int invoiceId, Date invoiceDate, int orderId, int customerId, GSTType typeOfGST, 
+			float totalInvoiceValue, InvoiceStatus status) {
+		this.invoiceId = invoiceId;
+		this.invoiceDate = invoiceDate;
+		this.orderId = orderId;
+		this.customerId = customerId;
+		this.typeOfGST = typeOfGST;
+		this.totalInvoiceValue = totalInvoiceValue;
+		this.status = status;
 	}
 
+	/// Setter and Getter methods
 	public int getInvoiceId() {
 		return invoiceId;
 	}
@@ -32,11 +45,11 @@ public class Invoice {
 		this.invoiceId = invoiceId;
 	}
 	
-	public Calendar getInvoiceDate() {
+	public Date getInvoiceDate() {
 		return invoiceDate;
 	}
 	
-	public void setInvoiceDate(Calendar invoiceDate) {
+	public void setInvoiceDate(Date invoiceDate) {
 		this.invoiceDate = invoiceDate;
 	}
 	
@@ -56,22 +69,14 @@ public class Invoice {
 		this.customerId = customerId;
 	}
 	
-	public List<Product> getProducts() {
+	public Map<Product, Integer> getProducts() {
 		return products;
 	}
-	
-	public void setProducts(List<Product> products) {
+
+	public void setProducts(Map<Product, Integer> products) {
 		this.products = products;
 	}
-	
-	public List<Float> getGstPerProduct() {
-		return gstPerProduct;
-	}
-	
-	public void setGstPerProduct(List<Float> gstPerProduct) {
-		this.gstPerProduct = gstPerProduct;
-	}
-	
+
 	public float getTotalGST() {
 		return totalGST;
 	}

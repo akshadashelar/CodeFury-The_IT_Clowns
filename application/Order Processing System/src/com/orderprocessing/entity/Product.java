@@ -55,4 +55,27 @@ public class Product {
 		this.productCategory = productCategory;
 	}
 	
+	@Override
+	public int hashCode() {
+		return this.getProductId();
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (this.getClass() != obj.getClass()) {
+            return false;
+        }
+        Product other = (Product) obj;
+        if (this.getProductId() != other.getProductId()) {
+            return false;
+        }
+        return true;
+	}
+	
 }
