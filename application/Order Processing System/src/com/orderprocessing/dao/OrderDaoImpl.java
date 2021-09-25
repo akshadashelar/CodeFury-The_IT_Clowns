@@ -7,16 +7,20 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.orderprocessing.entity.Order;
+import com.orderprocessing.entity.Product;
+import com.orderprocessing.exception.OrderNotFoundException;
 import com.orderprocessing.util.OrderStatus;
 
 public class OrderDaoImpl implements OrderDao{
 	private static Connection conn;
 	private static PreparedStatement selectOrdersWithoutProdList, selectOrdersWithoutProdListByCustId, 
-		selectQuotesWithoutProdListByCustId, insertQuote;
+		selectQuotesWithoutProdListByCustId, insertQuote, insertOrderHasProducts, selectOrderById,
+		selectOrderHasProducts;
 	
 	static {
 		conn = DBUtil.getConnection();
@@ -25,6 +29,9 @@ public class OrderDaoImpl implements OrderDao{
 			selectOrdersWithoutProdListByCustId = conn.prepareStatement("SELECT * FROM tbl_order where customer_id=? AND status IN (?,?)");
 			selectQuotesWithoutProdListByCustId = conn.prepareStatement("SELECT * FROM tbl_order where customer_id=? AND status=?");
 			insertQuote = conn.prepareStatement("INSERT INTO tbl_order(order_date,customer_id,customer_shipping_address,total_order_value,shipping_cost,status) VALUES (?,?,?,?,?,?)",Statement.RETURN_GENERATED_KEYS);
+			insertOrderHasProducts = conn.prepareStatement("INSERT INTO tbl_orderhasproducts(product_id,quantity) VALUES(?,?)");
+			selectOrderById = conn.prepareStatement("SELECT * FROM tbl_order WHERE order_id = ?");
+			selectOrderHasProducts = conn.prepareStatement("SELECT * FROM tbl_orderhasproducts, tbl_product where order_id = ? AND tbl_orderhasproducts.product_id = tbl_product.product_id");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -85,5 +92,39 @@ public class OrderDaoImpl implements OrderDao{
 		if(rs.next())
 			return rs.getInt(1);
 		return -1;
+	}
+	
+	// Insert into OrderHasProducts
+	@Override
+	public void addOrderHasProducts(Map<Integer, Integer> productMap) throws SQLException {
+		int i=0;
+		for(Map.Entry<Integer, Integer> entry: productMap.entrySet()) {
+			insertOrderHasProducts.setInt(1, entry.getKey());
+			insertOrderHasProducts.setInt(2, entry.getValue());
+			insertOrderHasProducts.addBatch();
+			i++;
+			if(i%10 == 0 || i==productMap.size()) {
+				insertOrderHasProducts.executeBatch();
+			}
+		}
+	}
+
+	@Override
+	public Order getOrderByOrderId(int orderId) throws SQLException, OrderNotFoundException {
+		selectOrderById.setInt(1, orderId);
+		ResultSet rs = selectOrderById.executeQuery();
+		if(rs.next()) 
+			return new Order(orderId,rs.getDate(2),rs.getInt(3),rs.getString(4),rs.getFloat(5),rs.getFloat(6),rs.getString(7),OrderStatus.valueOf(rs.getString(8)));
+		throw new OrderNotFoundException("Order not found");
+	}
+
+	@Override
+	public Map<Product, Integer> getOrderHasProducts(int orderId) throws SQLException {
+		selectOrderHasProducts.setInt(1, orderId);
+		ResultSet rs = selectOrderHasProducts.executeQuery();
+		Map<Product, Integer> productMap = new HashMap<>();
+		while(rs.next())
+			productMap.put(new Product(rs.getInt(4),rs.getString(5),rs.getFloat(6),rs.getInt(7)), rs.getInt(3));
+		return productMap;
 	}
 }
