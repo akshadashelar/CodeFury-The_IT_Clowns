@@ -127,4 +127,12 @@ public class OrderDaoImpl implements OrderDao{
 			productMap.put(new Product(rs.getInt(4),rs.getString(5),rs.getFloat(6),rs.getInt(7)), rs.getInt(3));
 		return productMap;
 	}
+
+	// Approve order, set status to Approved
+	@Override
+	public void approveOrder(int orderId) throws SQLException {
+		approveOrder.setString(1, OrderStatus.Approved.toString());
+		approveOrder.setInt(2, orderId);
+		approveOrder.executeUpdate();
+	}
 }

@@ -18,4 +18,5 @@ public interface OrderDao {
 	void addOrderHasProducts(Map<Integer,Integer> productMap) throws SQLException;
 	Order getOrderByOrderId(int orderId) throws SQLException, OrderNotFoundException;
 	Map<Product, Integer> getOrderHasProducts(int orderId) throws SQLException;
+	void approveOrder(int orderId) throws SQLException;
 }
