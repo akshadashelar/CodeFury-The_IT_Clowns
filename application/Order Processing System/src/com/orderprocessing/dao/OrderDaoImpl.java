@@ -125,7 +125,7 @@ public class OrderDaoImpl implements OrderDao{
 		ResultSet rs = selectOrderHasProducts.executeQuery();
 		Map<Product, Integer> productMap = new HashMap<>();
 		while(rs.next())
-			productMap.put(new Product(rs.getInt(4),rs.getString(5),rs.getFloat(6),rs.getInt(7)), rs.getInt(3));
+			productMap.put(new Product(rs.getInt(4),rs.getString(5),rs.getFloat(6),rs.getInt(7),rs.getInt(8)), rs.getInt(3));
 		return productMap;
 	}
 

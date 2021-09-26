@@ -5,6 +5,7 @@ public class Product {
 	private String productName;
 	private float productPrice;
 	private int productCategory;
+	private int companyId;
 	
 	// Default Constructor
 	public Product() {
@@ -12,14 +13,16 @@ public class Product {
 		this.productName = null;
 		this.productPrice = -1;
 		this.productCategory = -1;
+		this.companyId = -1;
 	}
 	
 	// Parameterized constructor
-	public Product(int productId, String productName, float productPrice, int productCategory) {
+	public Product(int productId, String productName, float productPrice, int productCategory, int companyId) {
 		this.productId = productId;
 		this.productName = productName;
 		this.productPrice = productPrice;
 		this.productCategory = productCategory;
+		this.companyId = companyId;
 	}
 
 	/// Setter and Getter methods
@@ -43,7 +46,7 @@ public class Product {
 		return productPrice;
 	}
 	
-	public void setProductPrice(int productPrice) {
+	public void setProductPrice(float productPrice) {
 		this.productPrice = productPrice;
 	}
 	
@@ -55,6 +58,14 @@ public class Product {
 		this.productCategory = productCategory;
 	}
 	
+	public int getCompanyId() {
+		return companyId;
+	}
+
+	public void setCompanyId(int companyId) {
+		this.companyId = companyId;
+	}
+
 	@Override
 	public int hashCode() {
 		return this.getProductId();
@@ -77,5 +88,12 @@ public class Product {
         }
         return true;
 	}
+
+	@Override
+	public String toString() {
+		return "Product [productId=" + productId + ", productName=" + productName + ", productPrice=" + productPrice
+				+ ", productCategory=" + productCategory + "]";
+	}
+	
 	
 }
