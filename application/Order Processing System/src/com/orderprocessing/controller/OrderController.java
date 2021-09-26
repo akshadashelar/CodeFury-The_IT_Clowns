@@ -84,7 +84,7 @@ public class OrderController extends HttpServlet{
 					Map<Product,Integer> products = orderService.getProducts(id);
 					request.setAttribute("order", order);
 					request.setAttribute("products", products);
-					rd = request.getRequestDispatcher("invoiceNew.html");
+					rd = request.getRequestDispatcher("invoice.jsp");
 					rd.forward(request, response);
 				} catch (SQLException | OrderNotFoundException e) {
 					// TODO Auto-generated catch block

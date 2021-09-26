@@ -33,7 +33,7 @@ public class InvoiceController extends HttpServlet{
 			System.out.println("In Invoice Controller");
 			try {
 				int orderId = Integer.parseInt(request.getParameter("orderId"));
-				
+				System.out.println(orderId);
 				//2.fetch from invoice 
 				Invoice invoice=new Invoice();
 				invoice = invoiceService.fetchInvoiceByOrderIdService(orderId);
