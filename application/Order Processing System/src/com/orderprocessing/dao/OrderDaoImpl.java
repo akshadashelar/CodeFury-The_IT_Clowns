@@ -20,7 +20,7 @@ public class OrderDaoImpl implements OrderDao{
 	private static Connection conn;
 	private static PreparedStatement selectOrdersWithoutProdList, selectOrdersWithoutProdListByCustId, 
 		selectQuotesWithoutProdListByCustId, insertQuote, insertOrderHasProducts, selectOrderById,
-		selectOrderHasProducts;
+		selectOrderHasProducts, approveOrder;
 	
 	static {
 		conn = DBUtil.getConnection();
@@ -32,6 +32,7 @@ public class OrderDaoImpl implements OrderDao{
 			insertOrderHasProducts = conn.prepareStatement("INSERT INTO tbl_orderhasproducts(product_id,quantity) VALUES(?,?)");
 			selectOrderById = conn.prepareStatement("SELECT * FROM tbl_order WHERE order_id = ?");
 			selectOrderHasProducts = conn.prepareStatement("SELECT * FROM tbl_orderhasproducts, tbl_product where order_id = ? AND tbl_orderhasproducts.product_id = tbl_product.product_id");
+			approveOrder = conn.prepareStatement("UPDATE tbl_order SET status=? WHERE order_id=?");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
