@@ -9,9 +9,9 @@ public class DBUtil {
 	
 	public static Connection getConnection() {
 		if(conn == null) {
-			String url = "jdbc:mysql://localhost:3306/hsbcdb?allowPublicKeyRetrieval=true&useSSL=false";
+			String url = "jdbc:mysql://localhost:3306/order_processing_system?allowPublicKeyRetrieval=true&useSSL=false";
 			String username = "root";
-			String password = "Mu$k@n07";
+			String password = "root";
 			try {
 				DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver());
 				conn = DriverManager.getConnection(url,username,password);
