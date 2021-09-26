@@ -51,5 +51,8 @@ public class InvoiceController extends HttpServlet{
 			}
 			
 		}
+		else if(operation.equals("approveOrder")) {
+			// TO-DO Insert new record into invoice table
+		}
 	}
 }

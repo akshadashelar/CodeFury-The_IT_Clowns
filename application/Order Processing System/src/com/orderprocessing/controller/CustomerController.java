@@ -64,6 +64,11 @@ public class CustomerController extends HttpServlet {
 				e.printStackTrace();
 			}
 		}
+		else if(operation.equals("approveOrder")) {
+			request.setAttribute("operation", "approveOrder");
+			rd = request.getRequestDispatcher("OrderController");
+			rd.forward(request, response);
+		}
 	}
 
 }

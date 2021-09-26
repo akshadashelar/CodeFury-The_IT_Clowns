@@ -20,4 +20,6 @@ public interface OrderService {
 
 	Map<Product, Integer> getProducts(int orderId) throws SQLException;
 
+	void approveOrder(int orderId) throws SQLException;
+
 }

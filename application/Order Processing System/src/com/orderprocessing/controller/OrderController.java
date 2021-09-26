@@ -85,5 +85,20 @@ public class OrderController extends HttpServlet{
 				e.printStackTrace();
 			}
 		}
+		else if(operation.equals("approveOrder")) {
+			int id = Integer.parseInt(request.getParameter("orderId"));
+			try {
+				orderService.approveOrder(id);
+				Order order = orderService.getOrderById(id);
+				Customer currentCustomer = (Customer) session.getAttribute("user");
+				request.setAttribute("order", order);
+				request.setAttribute("customer", currentCustomer);
+				rd = request.getRequestDispatcher("InvoiceController");
+				rd.forward(request, response);
+			} catch (SQLException | OrderNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 }

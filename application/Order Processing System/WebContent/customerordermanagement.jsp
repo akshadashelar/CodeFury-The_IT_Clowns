@@ -47,11 +47,11 @@
                             <td><%=q.getOrderValue() %></td>  
                             <td><%=q.getShippingCost() %></td>    
                             <td>
-                            	<form action="InvoiceController" method="POST" id="inv<%=q.getOrderId() %>">
+                            	<form action="CustomerController" method="POST" id="app<%=q.getOrderId() %>">
                             			<input type="hidden" id="operation" name="operation" value="approveOrder">
                             			<input type="hidden" id="orderId" name="orderId" value="<%=q.getOrderId() %>">
                             		</form>
-                            	<button class="approve">Approve</button>
+                            	<button class="approve" form="app<%=q.getOrderId() %>" value="submit">Approve</button>
                             </td> 
                                          
                             

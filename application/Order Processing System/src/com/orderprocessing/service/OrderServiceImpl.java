@@ -44,4 +44,9 @@ public class OrderServiceImpl implements OrderService{
 	public Map<Product, Integer> getProducts(int orderId) throws SQLException {
 		return orderDao.getOrderHasProducts(orderId);
 	}
+	
+	@Override
+	public void approveOrder(int orderId) throws SQLException {
+		orderDao.approveOrder(orderId);
+	}
 }
