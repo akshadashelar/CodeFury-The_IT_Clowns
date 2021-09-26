@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="CodeFury-The_IT_Clowns">
+        <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/application/Order Processing System/src"/>
+        <property name="context-root" value="CodeFury-The_IT_Clowns"/>
+        <property name="java-output-path" value="/CodeFury-The_IT_Clowns/bin"/>
+    </wb-module>
+</project-modules>
