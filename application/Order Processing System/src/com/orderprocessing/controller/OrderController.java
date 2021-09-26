@@ -75,12 +75,15 @@ public class OrderController extends HttpServlet{
 		else if(operation.equals("custInvoice")) {
 			Invoice invoice = (Invoice) request.getAttribute("invoice");
 			int id = invoice.getOrderId();
+			System.out.println(id);			
 			try {
+				
 				Order order = orderService.getOrderById(id);
 				Map<Product,Integer> products = orderService.getProducts(id);
 				request.setAttribute("order", order);
 				request.setAttribute("products", products);
-				rd = request.getRequestDispatcher("invoiceNew.html");
+				request.setAttribute("invoice", invoice);
+				rd = request.getRequestDispatcher("invoice.jsp");
 				rd.forward(request, response);
 			} catch (SQLException | OrderNotFoundException e) {
 				// TODO Auto-generated catch block
