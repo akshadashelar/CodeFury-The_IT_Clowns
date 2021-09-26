@@ -1,0 +1,30 @@
+[
+	{
+		"productId": 4,
+		"productName": "Debit Card",
+		"productPrice": 4,
+		"productCategory": 2,
+		"companyId": 1
+	},
+	{
+		"productId": 5,
+		"productName": "Credit Card",
+		"productPrice": 3,
+		"productCategory": 2,
+		"companyId": 1
+	},
+	{
+		"productId": 7,
+		"productName": "Shoes",
+		"productPrice": 300.00,
+		"productCategory": 3,
+		"companyId": 3
+	},
+	{
+		"productId": 4,
+		"productName": "dupl 4",
+		"productPrice": 400.00,
+		"productCategory": 4,
+		"companyId": 3
+	}
+]
