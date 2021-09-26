@@ -5,7 +5,6 @@ import java.sql.SQLException;
 import com.orderprocessing.entity.Invoice;
 import com.orderprocessing.entity.Order;
 import com.orderprocessing.exception.InvoiceNotFoundException;
-import com.orderprocessing.exception.NoSuchOrderIdException;
 
 public interface InvoiceService {
 	
