@@ -23,9 +23,3 @@ password = oshee@123
 ## Possible errors while execution
 
 1) Compilation error on common java commands: In this case the jre system library will have to be removed and added again
-
-## Functionalities missing
-
-1) Add new products: This functionality was working on one laptop and wasn't working on others.
-2) View Invoice in Employee Order Management page
-3) Side navigation bar session validation
