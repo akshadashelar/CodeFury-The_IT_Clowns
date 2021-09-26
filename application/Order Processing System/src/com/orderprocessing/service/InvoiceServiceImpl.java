@@ -7,7 +7,6 @@ import com.orderprocessing.dao.InvoiceDaoImpl;
 import com.orderprocessing.entity.Invoice;
 import com.orderprocessing.entity.Order;
 import com.orderprocessing.exception.InvoiceNotFoundException;
-import com.orderprocessing.exception.NoSuchOrderIdException;
 
 	public class InvoiceServiceImpl implements InvoiceService{
 		
