@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.orderprocessing.entity.Invoice;
-import com.orderprocessing.entity.Order;
 import com.orderprocessing.exception.InvoiceNotFoundException;
 import com.orderprocessing.service.InvoiceService;
 import com.orderprocessing.service.InvoiceServiceImpl;
@@ -38,13 +37,14 @@ public class InvoiceController extends HttpServlet{
 				//TODO
 				//3.forward req to customer controller 
 				//4. fetch customer details & forward to order controller(from customer controller request transfers to order controller)
-				//rd = request.getRequestDispatcher("CustomerController");
-				//rd.forward(request, response);
+				request.setAttribute("invoice", invoice);
+				rd = request.getRequestDispatcher("CustomerController");
+				rd.forward(request, response);
 				
 				//5. fetch order details & forward to invoice jsp
-				request.setAttribute("custInvoice", invoice);
+				/*request.setAttribute("custInvoice", invoice);
 				rd = request.getRequestDispatcher("invoiceNew.html");
-				rd.forward(request, response);
+				rd.forward(request, response);*/
 			}catch (SQLException | InvoiceNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

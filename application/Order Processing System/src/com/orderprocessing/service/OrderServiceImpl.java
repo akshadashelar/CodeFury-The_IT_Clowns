@@ -2,12 +2,15 @@ package com.orderprocessing.service;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 import com.orderprocessing.dao.CustomerDao;
 import com.orderprocessing.dao.CustomerDaoImpl;
 import com.orderprocessing.dao.OrderDao;
 import com.orderprocessing.dao.OrderDaoImpl;
 import com.orderprocessing.entity.Order;
+import com.orderprocessing.entity.Product;
+import com.orderprocessing.exception.OrderNotFoundException;
 
 public class OrderServiceImpl implements OrderService{
 	// Order Dao object
@@ -31,5 +34,14 @@ public class OrderServiceImpl implements OrderService{
 	public List<Order> fetchQuotesByCustomerId(int customerId) throws SQLException {
 		return orderDao.getQuotesWithoutProductListByCustomerId(customerId);
 	}
-
+	
+	@Override
+	public Order getOrderById(int orderId) throws SQLException, OrderNotFoundException {
+		return orderDao.getOrderByOrderId(orderId);
+	}
+	
+	@Override
+	public Map<Product, Integer> getProducts(int orderId) throws SQLException {
+		return orderDao.getOrderHasProducts(orderId);
+	}
 }

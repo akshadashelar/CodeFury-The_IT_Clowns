@@ -3,6 +3,7 @@ package com.orderprocessing.controller;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -13,11 +14,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.orderprocessing.entity.Customer;
+import com.orderprocessing.entity.Invoice;
 import com.orderprocessing.entity.Order;
-import com.orderprocessing.service.CustomerService;
-import com.orderprocessing.service.CustomerServiceImpl;
-import com.orderprocessing.service.EmployeeService;
-import com.orderprocessing.service.EmployeeServiceImpl;
+import com.orderprocessing.entity.Product;
+import com.orderprocessing.exception.OrderNotFoundException;
 import com.orderprocessing.service.OrderService;
 import com.orderprocessing.service.OrderServiceImpl;
 
@@ -69,6 +69,21 @@ public class OrderController extends HttpServlet{
 				e.printStackTrace();
 			}
 			
+		}
+		else if(operation.equals("custInvoice")) {
+			Invoice invoice = (Invoice) request.getAttribute("invoice");
+			int id = invoice.getOrderId();
+			try {
+				Order order = orderService.getOrderById(id);
+				Map<Product,Integer> products = orderService.getProducts(id);
+				request.setAttribute("order", order);
+				request.setAttribute("products", products);
+				rd = request.getRequestDispatcher("invoiceNew.html");
+				rd.forward(request, response);
+			} catch (SQLException | OrderNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 }

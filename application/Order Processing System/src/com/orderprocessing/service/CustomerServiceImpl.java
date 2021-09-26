@@ -30,4 +30,9 @@ public class CustomerServiceImpl implements CustomerService{
 			return customerDao.loginUsingName(name_or_id, password);
 		}
 	}
+	
+	@Override
+	public Customer getCustomerById(int id) throws SQLException, CustomerNotFoundException {
+		return customerDao.getCustomerById(id);
+	}
 }

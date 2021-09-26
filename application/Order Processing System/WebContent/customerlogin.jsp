@@ -38,6 +38,7 @@
             <div>
                 <input class="input" type="password" placeholder="Password" name="cpswd" required>
             </div>
+            <input type="hidden" id="operation" name="operation" value="custlogin">
         </form>
     </div>
     <br>
