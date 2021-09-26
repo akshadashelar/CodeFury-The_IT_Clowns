@@ -1,6 +1,7 @@
 package com.orderprocessing.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 
 import javax.servlet.RequestDispatcher;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.google.gson.Gson;
 import com.orderprocessing.entity.Customer;
 import com.orderprocessing.entity.Invoice;
 import com.orderprocessing.exception.CustomerNotFoundException;
@@ -19,6 +21,26 @@ import com.orderprocessing.service.CustomerServiceImpl;
 
 @WebServlet("/CustomerController")
 public class CustomerController extends HttpServlet {
+	
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String operation = req.getParameter("operation");
+		PrintWriter out = resp.getWriter();
+		CustomerService customerService = new CustomerServiceImpl();
+		
+		if(operation.equals("getCust")) {
+			String idOrName = req.getParameter("cust");
+			try {
+				Customer customer = customerService.getCustomerByIdOrName(idOrName);
+				Gson gson = new Gson();
+				String jsonText = gson.toJson(customer);
+				out.println(jsonText);
+			} catch (SQLException | CustomerNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String operation = request.getParameter("operation");

@@ -29,7 +29,7 @@ public class OrderDaoImpl implements OrderDao{
 			selectOrdersWithoutProdListByCustId = conn.prepareStatement("SELECT * FROM tbl_order where customer_id=? AND status IN (?,?)");
 			selectQuotesWithoutProdListByCustId = conn.prepareStatement("SELECT * FROM tbl_order where customer_id=? AND status=?");
 			insertQuote = conn.prepareStatement("INSERT INTO tbl_order(order_date,customer_id,customer_shipping_address,total_order_value,shipping_cost,status) VALUES (?,?,?,?,?,?)",Statement.RETURN_GENERATED_KEYS);
-			insertOrderHasProducts = conn.prepareStatement("INSERT INTO tbl_orderhasproducts(product_id,quantity) VALUES(?,?)");
+			insertOrderHasProducts = conn.prepareStatement("INSERT INTO tbl_orderhasproducts VALUES(?,?,?)");
 			selectOrderById = conn.prepareStatement("SELECT * FROM tbl_order WHERE order_id = ?");
 			selectOrderHasProducts = conn.prepareStatement("SELECT * FROM tbl_orderhasproducts, tbl_product where order_id = ? AND tbl_orderhasproducts.product_id = tbl_product.product_id");
 			approveOrder = conn.prepareStatement("UPDATE tbl_order SET status=? WHERE order_id=?");
@@ -97,11 +97,12 @@ public class OrderDaoImpl implements OrderDao{
 	
 	// Insert into OrderHasProducts
 	@Override
-	public void addOrderHasProducts(Map<Integer, Integer> productMap) throws SQLException {
+	public void addOrderHasProducts(Map<Integer, Integer> productMap,int orderId) throws SQLException {
 		int i=0;
 		for(Map.Entry<Integer, Integer> entry: productMap.entrySet()) {
-			insertOrderHasProducts.setInt(1, entry.getKey());
-			insertOrderHasProducts.setInt(2, entry.getValue());
+			insertOrderHasProducts.setInt(1, orderId);
+			insertOrderHasProducts.setInt(2, entry.getKey());
+			insertOrderHasProducts.setInt(3, entry.getValue());
 			insertOrderHasProducts.addBatch();
 			i++;
 			if(i%10 == 0 || i==productMap.size()) {

@@ -2,6 +2,9 @@ package com.orderprocessing.controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -31,73 +34,104 @@ public class OrderController extends HttpServlet{
 	
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String operation = request.getAttribute("operation").toString();
 		RequestDispatcher rd = null;
 		HttpSession session = request.getSession();
 		OrderService orderService = new OrderServiceImpl();
 		
-		if(operation.equals("emporder")) {
-			
-			System.out.println("In Order Controller; operation = emporder");
-			try {
-				List<Order> allOrders = orderService.fetchAllOrders();
+		try {
+			String operation = request.getAttribute("operation").toString();
+		
+			if(operation.equals("emporder")) {
 				
-				request.setAttribute("allOrders", allOrders);
-				rd = request.getRequestDispatcher("employeeOrderManagement.jsp");
-				rd.forward(request, response);
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-		}
-		else if(operation.equals("custorder")) {
-			
-			System.out.println("In Order Controller; operation = custorder");
-			Customer currentCustomer = (Customer) session.getAttribute("user");
-			int customerId = currentCustomer.getCustomerId();
-			try {
-				List<Order> customerOrders = orderService.fetchOrdersByCustomerId(customerId);
-				List<Order> customerQuotes = orderService.fetchQuotesByCustomerId(customerId);
+				System.out.println("In Order Controller; operation = emporder");
+				try {
+					List<Order> allOrders = orderService.fetchAllOrders();
+					
+					request.setAttribute("allOrders", allOrders);
+					rd = request.getRequestDispatcher("employeeOrderManagement.jsp");
+					rd.forward(request, response);
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				
-				request.setAttribute("customerOrders", customerOrders);
-				request.setAttribute("customerQuotes", customerQuotes);
-				rd = request.getRequestDispatcher("customerordermanagement.jsp");
-				rd.forward(request, response);
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
-			
-		}
-		else if(operation.equals("custInvoice")) {
-			Invoice invoice = (Invoice) request.getAttribute("invoice");
-			int id = invoice.getOrderId();
-			try {
-				Order order = orderService.getOrderById(id);
-				Map<Product,Integer> products = orderService.getProducts(id);
-				request.setAttribute("order", order);
-				request.setAttribute("products", products);
-				rd = request.getRequestDispatcher("invoiceNew.html");
-				rd.forward(request, response);
-			} catch (SQLException | OrderNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		else if(operation.equals("approveOrder")) {
-			int id = Integer.parseInt(request.getParameter("orderId"));
-			try {
-				orderService.approveOrder(id);
-				Order order = orderService.getOrderById(id);
+			else if(operation.equals("custorder")) {
+				
+				System.out.println("In Order Controller; operation = custorder");
 				Customer currentCustomer = (Customer) session.getAttribute("user");
-				request.setAttribute("order", order);
-				request.setAttribute("customer", currentCustomer);
-				rd = request.getRequestDispatcher("InvoiceController");
-				rd.forward(request, response);
-			} catch (SQLException | OrderNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				int customerId = currentCustomer.getCustomerId();
+				try {
+					List<Order> customerOrders = orderService.fetchOrdersByCustomerId(customerId);
+					List<Order> customerQuotes = orderService.fetchQuotesByCustomerId(customerId);
+					
+					request.setAttribute("customerOrders", customerOrders);
+					request.setAttribute("customerQuotes", customerQuotes);
+					rd = request.getRequestDispatcher("customerordermanagement.jsp");
+					rd.forward(request, response);
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			}
+			else if(operation.equals("custInvoice")) {
+				Invoice invoice = (Invoice) request.getAttribute("invoice");
+				int id = invoice.getOrderId();
+				try {
+					Order order = orderService.getOrderById(id);
+					Map<Product,Integer> products = orderService.getProducts(id);
+					request.setAttribute("order", order);
+					request.setAttribute("products", products);
+					rd = request.getRequestDispatcher("invoiceNew.html");
+					rd.forward(request, response);
+				} catch (SQLException | OrderNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			else if(operation.equals("approveOrder")) {
+				int id = Integer.parseInt(request.getParameter("orderId"));
+				try {
+					orderService.approveOrder(id);
+					Order order = orderService.getOrderById(id);
+					Customer currentCustomer = (Customer) session.getAttribute("user");
+					request.setAttribute("order", order);
+					request.setAttribute("customer", currentCustomer);
+					rd = request.getRequestDispatcher("InvoiceController");
+					rd.forward(request, response);
+				} catch (SQLException | OrderNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		} catch(NullPointerException e) {
+			String operation = request.getParameter("operation");
+			
+			if(operation.equals("addQuote")) {
+				int id = Integer.parseInt(request.getParameter("custId"));
+				String address = request.getParameter("custAddress");
+				float shippingCost = Float.parseFloat(request.getParameter("shipCost"));
+				float orderValue = Float.parseFloat(request.getParameter("totalValue"));
+				String products = request.getParameter("products");
+				String date = request.getParameter("date");
+				Date orderDate;
+				try {
+					orderDate = new SimpleDateFormat("yyyy-MM-dd").parse(date);
+					int orderId = orderService.addQuote(orderDate, id, address, orderValue, shippingCost);
+					orderService.addOrderHasProducts(products,orderId);
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				System.out.println(id);
+				System.out.println(address);
+				System.out.println(shippingCost);
+				System.out.println(orderValue);
+				System.out.println(products);
 			}
 		}
 	}

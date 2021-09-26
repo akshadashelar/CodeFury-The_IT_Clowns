@@ -63,9 +63,10 @@
                     
                 </table>
                 <div class="button-align">
+                <a href="http://localhost:8080/Order_Processing_System/newquote.jsp">
                 <button class="button-order button-txt-order button-align"> 
                                      
-                    Create New Quote</button>
+                    Create New Quote</button></a>
                 <button class="button-order button-txt-order button-align"> 
                             
                     Import New Products</button>

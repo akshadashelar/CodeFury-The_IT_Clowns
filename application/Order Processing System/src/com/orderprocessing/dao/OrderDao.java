@@ -15,7 +15,7 @@ public interface OrderDao {
 	List<Order> getQuotesWithoutProductListByCustomerId(int id) throws SQLException;
 	int addQuote(Date order_date, int customer_id, String customer_shipping_address,
 			float total_order_value, float shipping_cost) throws SQLException;
-	void addOrderHasProducts(Map<Integer,Integer> productMap) throws SQLException;
+	void addOrderHasProducts(Map<Integer,Integer> productMap,int orderId) throws SQLException;
 	Order getOrderByOrderId(int orderId) throws SQLException, OrderNotFoundException;
 	Map<Product, Integer> getOrderHasProducts(int orderId) throws SQLException;
 	void approveOrder(int orderId) throws SQLException;

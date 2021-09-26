@@ -1,9 +1,13 @@
 package com.orderprocessing.service;
 
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.lang.reflect.Type;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.orderprocessing.dao.CustomerDao;
 import com.orderprocessing.dao.CustomerDaoImpl;
 import com.orderprocessing.dao.OrderDao;
@@ -48,5 +52,25 @@ public class OrderServiceImpl implements OrderService{
 	@Override
 	public void approveOrder(int orderId) throws SQLException {
 		orderDao.approveOrder(orderId);
+	}
+	
+	@Override
+	public int addQuote(Date order_date, int customer_id, String customer_shipping_address, float total_order_value,
+			float shipping_cost) throws SQLException {
+				return orderDao.addQuote(order_date, customer_id, customer_shipping_address, total_order_value, shipping_cost);
+		
+	}
+	
+	@Override
+	public void addOrderHasProducts(String products,int orderId) throws SQLException {
+		Gson gson = new Gson();
+		Type mapType = new TypeToken<Map<Integer,Integer>>(){}.getType();
+		products = products.replaceAll("\\{","");
+		products = products.replaceAll("\\}","");
+		products = products.replaceAll("\\[","\\{");
+		products = products.replaceAll("\\]","\\}");
+		System.out.println(products);
+		Map<Integer,Integer> prodmap = gson.fromJson(products, mapType);
+		orderDao.addOrderHasProducts(prodmap,orderId);
 	}
 }

@@ -35,4 +35,16 @@ public class CustomerServiceImpl implements CustomerService{
 	public Customer getCustomerById(int id) throws SQLException, CustomerNotFoundException {
 		return customerDao.getCustomerById(id);
 	}
+	
+	@Override
+	public Customer getCustomerByIdOrName(String idOrName) throws SQLException, CustomerNotFoundException {
+		try{
+			// Check if id
+			int cust_id = Integer.parseInt(idOrName);
+			return customerDao.getCustomerById(cust_id);
+		} catch(NumberFormatException e) {
+			// If name
+			return customerDao.getCustomerByName(idOrName);
+		}
+	}
 }

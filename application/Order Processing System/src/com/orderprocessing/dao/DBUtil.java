@@ -11,7 +11,7 @@ public class DBUtil {
 		if(conn == null) {
 			String url = "jdbc:mysql://localhost:3306/order_processing_system?allowPublicKeyRetrieval=true&useSSL=false";
 			String username = "root";
-			String password = "root";
+			String password = "shaunak123";
 			try {
 				DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver());
 				conn = DriverManager.getConnection(url,username,password);
