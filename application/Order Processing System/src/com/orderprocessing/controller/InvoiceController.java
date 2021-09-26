@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 import com.orderprocessing.entity.Invoice;
 import com.orderprocessing.entity.Order;
 import com.orderprocessing.exception.InvoiceNotFoundException;
-import com.orderprocessing.exception.NoSuchOrderIdException;
 import com.orderprocessing.service.InvoiceService;
 import com.orderprocessing.service.InvoiceServiceImpl;
 
