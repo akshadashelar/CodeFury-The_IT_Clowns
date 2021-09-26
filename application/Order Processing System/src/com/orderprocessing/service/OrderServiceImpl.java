@@ -49,4 +49,8 @@ public class OrderServiceImpl implements OrderService{
 	public void approveOrder(int orderId) throws SQLException {
 		orderDao.approveOrder(orderId);
 	}
+	@Override
+	public void expireOrder(int orderId) throws SQLException {
+		orderDao.expireOrder(orderId);
+	}
 }

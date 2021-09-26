@@ -22,4 +22,6 @@ public interface OrderService {
 
 	void approveOrder(int orderId) throws SQLException;
 
+	void expireOrder(int orderId) throws SQLException;
+
 }

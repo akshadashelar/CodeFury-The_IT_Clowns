@@ -20,7 +20,7 @@ public class OrderDaoImpl implements OrderDao{
 	private static Connection conn;
 	private static PreparedStatement selectOrdersWithoutProdList, selectOrdersWithoutProdListByCustId, 
 		selectQuotesWithoutProdListByCustId, insertQuote, insertOrderHasProducts, selectOrderById,
-		selectOrderHasProducts, approveOrder;
+		selectOrderHasProducts, updateOrderStatus;
 	
 	static {
 		conn = DBUtil.getConnection();
@@ -32,7 +32,7 @@ public class OrderDaoImpl implements OrderDao{
 			insertOrderHasProducts = conn.prepareStatement("INSERT INTO tbl_orderhasproducts(product_id,quantity) VALUES(?,?)");
 			selectOrderById = conn.prepareStatement("SELECT * FROM tbl_order WHERE order_id = ?");
 			selectOrderHasProducts = conn.prepareStatement("SELECT * FROM tbl_orderhasproducts, tbl_product where order_id = ? AND tbl_orderhasproducts.product_id = tbl_product.product_id");
-			approveOrder = conn.prepareStatement("UPDATE tbl_order SET status=? WHERE order_id=?");
+			updateOrderStatus = conn.prepareStatement("UPDATE tbl_order SET status=? WHERE order_id=?");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -132,8 +132,16 @@ public class OrderDaoImpl implements OrderDao{
 	// Approve order, set status to Approved
 	@Override
 	public void approveOrder(int orderId) throws SQLException {
-		approveOrder.setString(1, OrderStatus.Approved.toString());
-		approveOrder.setInt(2, orderId);
-		approveOrder.executeUpdate();
+		updateOrderStatus.setString(1, OrderStatus.Approved.toString());
+		updateOrderStatus.setInt(2, orderId);
+		updateOrderStatus.executeUpdate();
+	}
+	
+	// order approval failed, set status to Expired
+	@Override
+	public void expireOrder(int orderId) throws SQLException {
+		updateOrderStatus.setString(1, OrderStatus.Expired.toString());
+		updateOrderStatus.setInt(2, orderId);
+		updateOrderStatus.executeUpdate();
 	}
 }
