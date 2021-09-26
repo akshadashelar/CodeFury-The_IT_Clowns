@@ -2,6 +2,7 @@ package com.orderprocessing.controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Date;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,23 +11,26 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.orderprocessing.entity.Customer;
 import com.orderprocessing.entity.Invoice;
+import com.orderprocessing.entity.Order;
 import com.orderprocessing.exception.InvoiceNotFoundException;
 import com.orderprocessing.service.InvoiceService;
 import com.orderprocessing.service.InvoiceServiceImpl;
+import com.orderprocessing.util.GSTType;
+import com.orderprocessing.util.InvoiceStatus;
 
 @WebServlet("/InvoiceController")
 public class InvoiceController extends HttpServlet{
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		InvoiceService invoiceService= new InvoiceServiceImpl();
 		String operation = request.getParameter("operation");
 		RequestDispatcher rd = null;
 		
 		//1.request to invoice controller pass orderid 
 		if(operation.equals("custInvoice")) {
 			System.out.println("In Invoice Controller");
-			InvoiceService invoiceService= new InvoiceServiceImpl();
 			try {
 				int orderId = Integer.parseInt(request.getParameter("orderId"));
 				
@@ -53,6 +57,18 @@ public class InvoiceController extends HttpServlet{
 		}
 		else if(operation.equals("approveOrder")) {
 			// TO-DO Insert new record into invoice table
+			Order order = (Order) request.getAttribute("order");
+			Customer customer = (Customer) request.getAttribute("customer");
+			Date currentDate = new Date();
+			float total_value = order.getOrderValue() + order.getShippingCost();
+			try {
+				invoiceService.addInvoice(currentDate, order.getOrderId(), customer.getCustomerId(), GSTType.INTER_STATE, total_value, InvoiceStatus.Unpaid);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			request.setAttribute("operation", "custorder");
+			rd = request.getRequestDispatcher("OrderController");
+			rd.forward(request, response);
 		}
 	}
 }

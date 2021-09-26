@@ -73,4 +73,9 @@ public class OrderServiceImpl implements OrderService{
 		Map<Integer,Integer> prodmap = gson.fromJson(products, mapType);
 		orderDao.addOrderHasProducts(prodmap,orderId);
 	}
+	
+	@Override
+	public void expireOrder(int orderId) throws SQLException {
+		orderDao.expireOrder(orderId);
+	}
 }

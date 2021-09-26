@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -93,13 +94,27 @@ public class OrderController extends HttpServlet{
 			else if(operation.equals("approveOrder")) {
 				int id = Integer.parseInt(request.getParameter("orderId"));
 				try {
-					orderService.approveOrder(id);
 					Order order = orderService.getOrderById(id);
-					Customer currentCustomer = (Customer) session.getAttribute("user");
-					request.setAttribute("order", order);
-					request.setAttribute("customer", currentCustomer);
-					rd = request.getRequestDispatcher("InvoiceController");
-					rd.forward(request, response);
+					// Current date
+					Date currentDate = new Date();
+					// Difference between current date and order date
+					long differenceInDays = TimeUnit.MILLISECONDS.toDays(currentDate.getTime() - order.getOrderDate().getTime());
+					System.out.println("Difference in days:"+differenceInDays);
+					// If difference is more than 30 days approval fails and the status is set to expired.
+					if(differenceInDays > 30) {
+						orderService.expireOrder(id);
+						request.setAttribute("operation", "custorder");
+						rd = request.getRequestDispatcher("OrderController");
+						rd.forward(request, response);
+					}
+					else {
+						orderService.approveOrder(id);
+						Customer currentCustomer = (Customer) session.getAttribute("user");
+						request.setAttribute("order", order);
+						request.setAttribute("customer", currentCustomer);
+						rd = request.getRequestDispatcher("InvoiceController");
+						rd.forward(request, response);
+					}
 				} catch (SQLException | OrderNotFoundException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

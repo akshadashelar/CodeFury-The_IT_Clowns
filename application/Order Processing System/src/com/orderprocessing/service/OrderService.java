@@ -28,4 +28,6 @@ public interface OrderService {
 
 	void addOrderHasProducts(String products,int orderId) throws SQLException;
 
+	void expireOrder(int orderId) throws SQLException;
+
 }
