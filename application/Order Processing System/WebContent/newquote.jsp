@@ -140,9 +140,15 @@
 					m = n.getMonth() + 1;
 					d = n.getDate();
 					if(m < 10) {
-						document.getElementById("orderdate").value = y + "-0" + m + "-" + d;
+						if(d < 10)
+							document.getElementById("orderdate").value = y + "-0" + m + "-0" + d;
+						else
+							document.getElementById("orderdate").value = y + "-0" + m + "-" + d;
 					} else {
-						document.getElementById("orderdate").value = y + "-" + m + "-" + d;
+						if(d<10)
+							document.getElementById("orderdate").value = y + "-" + m + "-0" + d;
+						else
+							document.getElementById("orderdate").value = y + "-" + m + "-" + d;
 					}
 				}
 				xhttp.open("GET","http://localhost:8080/Order_Processing_System/CustomerController?operation=getCust&cust="+idOrName);
@@ -202,7 +208,7 @@
 					cell5.appendChild(button);
 				}
 			}
-			xhttp.open("GET","http://localhost:8080/Order_Processing_System/ProductController1?operation=getCustProducts&cust="+custId);
+			xhttp.open("GET","http://localhost:8080/Order_Processing_System/ProductController?operation=getCustProducts&cust="+custId);
 			xhttp.send(); // This method will send request to a server
 		}
 		
@@ -330,16 +336,17 @@
 			m = n.getMonth() + 1;
 			d = n.getDate();
 			if(m < 10) {
-				date = y + "-0" + m + "-" + d;
+				if(d < 10)
+					document.getElementById("orderdate").value = y + "-0" + m + "-0" + d;
+				else
+					document.getElementById("orderdate").value = y + "-0" + m + "-" + d;
 			} else {
-				date = y + "-" + m + "-" + d;
+				if(d<10)
+					document.getElementById("orderdate").value = y + "-" + m + "-0" + d;
+				else
+					document.getElementById("orderdate").value = y + "-" + m + "-" + d;
 			}
-			/*var cartObj = {};
-			for(let i = 0 ; i < cart.length ; i++) {
-				let obj = cart[i];
-				cartObj[Object.keys(obj)[0]] = obj[Object.keys(obj)[0]];
-			}
-			alert(JSON.parse(cartObj));*/
+			
 			var params = 'custId='+custId+'&products='+JSON.stringify(cart)+'&';
 			params = params+'custAddress='+custAddress+'&';
 			params = params+'shipCost='+shippingCost+'&';

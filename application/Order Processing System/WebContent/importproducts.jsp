@@ -19,10 +19,18 @@
 			<div class="icon"><button><i class="fas fa-cloud-upload-alt"></i></button></div>
 			<header id="uploadline">Upload File to Import Products</header>
 			<span></span>
+			<input type="hidden" id="operation" name="operation" value="importproduct">
 			<input type="file" name="products">
 			<input id ="upload" type="submit" value="Submit">
 		</div>
 	</form>
+	<br><br>
+	<%
+	try {
+		int count = (int)request.getAttribute("successCount");
+	%>
+	<p>Number of Products added: <%= count %></p>
+	<%} catch(Exception e) {} %>
 	<script src="importproducts.js"></script>
 
 </body>

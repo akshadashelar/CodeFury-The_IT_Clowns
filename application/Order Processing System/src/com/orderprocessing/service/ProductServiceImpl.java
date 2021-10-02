@@ -1,6 +1,7 @@
 package com.orderprocessing.service;
 
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Set;
 
 import com.orderprocessing.dao.ProductDao;
@@ -20,4 +21,8 @@ public class ProductServiceImpl implements ProductService{
 		return productDao.addProducts(products);
 	}
 
+	@Override
+	public List<Product> fetchAllProducts() throws SQLException {
+		return productDao.fetchAllProducts();
+	}
 }
