@@ -49,8 +49,14 @@
                             <td><%=o.getCustomerShippingAddress() %></td>  
                             <td><%=o.getOrderValue() %></td> 
                             <td><%=o.getStatus() %></td>   
-                             <% if(o.getStatus()== OrderStatus.Approved){%>
-                            	<td><button class="approved">Invoice</button></td>
+                             <% if(o.getStatus()== OrderStatus.Approved || o.getStatus()==OrderStatus.Completed){%>
+                            	<td>
+                            		<form action="InvoiceController" method="post">
+                            			<input type="text" name="operation" value="custInvoice" hidden>
+                            			<input type="text" name="orderId" value="<%=o.getOrderId() %>" hidden>
+                            			<button class="approved" type="submit">Invoice</button>
+                            		</form>
+                            	</td>
                            <% }%>
                                          
                             

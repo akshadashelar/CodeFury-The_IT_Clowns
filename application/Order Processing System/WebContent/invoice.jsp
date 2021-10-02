@@ -1,4 +1,4 @@
-<%@ page language="java" import="java.util.List, java.util.Map, com.orderprocessing.entity.Invoice,com.orderprocessing.entity.Product,com.orderprocessing.entity.Customer, com.orderprocessing.controller.CustomerController, com.orderprocessing.entity.Order" contentType="text/html; charset=ISO-8859-1"
+<%@ page language="java" import="java.util.List, java.util.Map, java.util.Formatter, com.orderprocessing.entity.Invoice,com.orderprocessing.entity.Product,com.orderprocessing.entity.Customer, com.orderprocessing.controller.CustomerController, com.orderprocessing.entity.Order" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html>
@@ -16,11 +16,12 @@
 </head>
 <body>
 <%@ include file="header.html"%>
-<% Invoice invoice = (Invoice) request.getAttribute("invoice");
-Customer customer = (Customer)request.getAttribute("customer");
-Order order = (Order)request.getAttribute("order");
-Map<Product, Integer> products = (Map<Product, Integer>)request.getAttribute("products");
-System.out.println(products);
+<% 
+	Invoice invoice = (Invoice) request.getAttribute("invoice");
+	Customer customer = (Customer)request.getAttribute("customer");
+	Order order = (Order)request.getAttribute("order");
+	Map<Product, Integer> products = (Map<Product, Integer>) request.getAttribute("products");
+	System.out.println(products);
 %>
 
 
@@ -106,10 +107,12 @@ System.out.println(products);
                             <div class="d-none d-sm-block col-sm-2">GST Amt</div>
                             <div class="col-2">Amount</div>
                         </div>
-    <% for(Map.Entry<Product, Integer> entry: products.entrySet()) {
-    	Product p = entry.getKey();
-    	System.out.println(p);
-    	int qty = entry.getValue();
+    <% 
+    	Formatter formatter = new Formatter();
+    	for(Map.Entry<Product, Integer> entry: products.entrySet()) {
+    		Product p = entry.getKey();
+    		System.out.println(p);
+    		int qty = entry.getValue();
      %>
                         <div class="text-95 text-secondary-d3">
                             <div class="row mb-2 mb-sm-0 py-25">
@@ -117,8 +120,8 @@ System.out.println(products);
                                 <div class="col-9 col-sm-4"><%= p.getProductName()  %></div>
                                 <div class="d-none d-sm-block col-1"><%= qty  %></div>
                                 <div class="d-none d-sm-block col-2 text-95"><%= p.getProductPrice()  %></div>
-                                <div class="col-2 text-secondary-d2"><%= p.getProductPrice()  %></div>
-                                <div class="col-2 text-secondary-d2"><%= invoice.getTotalGST()  %></div>
+                                <div class="col-2 text-secondary-d2"><%= (qty*p.getProductPrice())/10  %></div>
+                                <div class="col-2 text-secondary-d2"><%= formatter.format("%.2f",qty*p.getProductPrice()*1.1) %></div>
                             </div>
     <%} %>
                             <!-- <div class="row mb-2 mb-sm-0 py-25 bgc-default-l4">
@@ -188,7 +191,7 @@ System.out.println(products);
                                         GST Type
                                     </div>
                                     <div class="col-5">
-                                        <span class="text-120 text-secondary-d1"><%invoice.getTypeOfGST(); %></span>
+                                        <span class="text-120 text-secondary-d1"><%= invoice.getTypeOfGST() %></span>
                                     </div>
                                 </div>
     
@@ -198,7 +201,7 @@ System.out.println(products);
                                         Total Amount
                                     </div>
                                     <div class="col-5">
-                                        <span class="text-150 text-success-d3 opacity-2"><%invoice.getTotalInvoiceValue(); %></span>
+                                        <span class="text-150 text-success-d3 opacity-2"><%= invoice.getTotalInvoiceValue() %></span>
                                     </div>
                                 </div>
                             </div>
