@@ -337,14 +337,14 @@
 			d = n.getDate();
 			if(m < 10) {
 				if(d < 10)
-					document.getElementById("orderdate").value = y + "-0" + m + "-0" + d;
+					date = y + "-0" + m + "-0" + d;
 				else
-					document.getElementById("orderdate").value = y + "-0" + m + "-" + d;
+					date = y + "-0" + m + "-" + d;
 			} else {
 				if(d<10)
-					document.getElementById("orderdate").value = y + "-" + m + "-0" + d;
+					date = y + "-" + m + "-0" + d;
 				else
-					document.getElementById("orderdate").value = y + "-" + m + "-" + d;
+					date = y + "-" + m + "-" + d;
 			}
 			
 			var params = 'custId='+custId+'&products='+JSON.stringify(cart)+'&';
