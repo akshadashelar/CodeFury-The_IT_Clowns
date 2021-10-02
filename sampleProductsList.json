@@ -1,20 +1,20 @@
 [
 	{
-		"productId": 4,
-		"productName": "Debit Card",
+		"productId": 8,
+		"productName": "Laptop",
 		"productPrice": 4,
 		"productCategory": 2,
 		"companyId": 1
 	},
 	{
-		"productId": 5,
-		"productName": "Credit Card",
+		"productId": 9,
+		"productName": "Table",
 		"productPrice": 3,
 		"productCategory": 2,
 		"companyId": 1
 	},
 	{
-		"productId": 7,
+		"productId": 9,
 		"productName": "Shoes",
 		"productPrice": 300.00,
 		"productCategory": 3,
