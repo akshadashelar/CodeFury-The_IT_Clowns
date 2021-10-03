@@ -113,15 +113,16 @@
     		Product p = entry.getKey();
     		System.out.println(p);
     		int qty = entry.getValue();
+    		float totalProductPrice = qty*p.getProductPrice();
      %>
                         <div class="text-95 text-secondary-d3">
                             <div class="row mb-2 mb-sm-0 py-25">
-                                <div class="d-none d-sm-block col-1">1</div>
+                                <div class="d-none d-sm-block col-1"><%= 1 %></div>
                                 <div class="col-9 col-sm-4"><%= p.getProductName()  %></div>
                                 <div class="d-none d-sm-block col-1"><%= qty  %></div>
                                 <div class="d-none d-sm-block col-2 text-95"><%= p.getProductPrice()  %></div>
-                                <div class="col-2 text-secondary-d2"><%= (qty*p.getProductPrice())/10  %></div>
-                                <div class="col-2 text-secondary-d2"><%= formatter.format("%.2f",qty*p.getProductPrice()*1.1) %></div>
+                                <div class="col-2 text-secondary-d2"><%= (totalProductPrice)/10  %></div>
+                                <div class="col-2 text-secondary-d2"><%= String.format("%.2f", totalProductPrice*1.1) %></div>
                             </div>
     <%} %>
                             <!-- <div class="row mb-2 mb-sm-0 py-25 bgc-default-l4">
