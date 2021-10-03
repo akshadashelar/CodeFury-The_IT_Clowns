@@ -19,12 +19,15 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.orderprocessing.dao.ProductDao;
 import com.orderprocessing.dao.ProductDaoImpl;
+import com.orderprocessing.entity.Customer;
+import com.orderprocessing.entity.Employee;
 import com.orderprocessing.entity.Product;
 import com.orderprocessing.service.ProductService;
 import com.orderprocessing.service.ProductServiceImpl;
@@ -37,6 +40,32 @@ public class ProductController extends HttpServlet {
 		String operation = request.getParameter("operation");
 		ProductService productService = new ProductServiceImpl();
 		PrintWriter out = response.getWriter();
+		RequestDispatcher rd = null;
+		
+		Customer customer = null;
+		Employee employee = null;
+		// Check session
+		HttpSession session = request.getSession();
+		String user_type = (String) session.getAttribute("user_type");
+		if(user_type == null) {
+			rd = request.getRequestDispatcher("main.jsp");
+			rd.forward(request, response);
+		}
+		else if (user_type.equals("customer")) {
+			customer = (Customer) session.getAttribute("user");
+			if(customer == null) {
+				rd = request.getRequestDispatcher("main.jsp");
+				rd.forward(request, response);
+			}
+		}
+		else if (user_type.equals("employee")) {
+			employee = (Employee) session.getAttribute("user");
+			if(employee == null) {
+				rd = request.getRequestDispatcher("main.jsp");
+				rd.forward(request, response);
+			}
+		}
+		
 		if(operation.equals("getCustProducts")) {
 			try {
 				List<Product> products = productService.fetchAllProducts();
@@ -53,6 +82,30 @@ public class ProductController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String operation = request.getParameter("operation");
 		RequestDispatcher rd = null;
+		Customer customer = null;
+		Employee employee = null;
+		// Check session
+		HttpSession session = request.getSession();
+		String user_type = (String) session.getAttribute("user_type");
+		if(user_type == null) {
+			rd = request.getRequestDispatcher("main.jsp");
+			rd.forward(request, response);
+		}
+		else if (user_type.equals("customer")) {
+			customer = (Customer) session.getAttribute("user");
+			if(customer == null) {
+				rd = request.getRequestDispatcher("main.jsp");
+				rd.forward(request, response);
+			}
+		}
+		else if (user_type.equals("employee")) {
+			employee = (Employee) session.getAttribute("user");
+			if(employee == null) {
+				rd = request.getRequestDispatcher("main.jsp");
+				rd.forward(request, response);
+			}
+		}
+		
 		if(operation.equals("importproduct")) {
 			System.out.println(operation);
 			ProductService productService = new ProductServiceImpl();

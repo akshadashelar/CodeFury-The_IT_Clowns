@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.orderprocessing.entity.Customer;
+import com.orderprocessing.entity.Employee;
 import com.orderprocessing.entity.Invoice;
 import com.orderprocessing.entity.Order;
 import com.orderprocessing.entity.Product;
@@ -36,8 +37,31 @@ public class OrderController extends HttpServlet{
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		RequestDispatcher rd = null;
-		HttpSession session = request.getSession();
 		OrderService orderService = new OrderServiceImpl();
+		Customer customer = null;
+		Employee employee = null;
+		
+		// Check session
+		HttpSession session = request.getSession();
+		String user_type = (String) session.getAttribute("user_type");
+		if(user_type == null) {
+			rd = request.getRequestDispatcher("main.jsp");
+			rd.forward(request, response);
+		}
+		else if (user_type.equals("customer")) {
+			customer = (Customer) session.getAttribute("user");
+			if(customer == null) {
+				rd = request.getRequestDispatcher("main.jsp");
+				rd.forward(request, response);
+			}
+		}
+		else if (user_type.equals("employee")) {
+			employee = (Employee) session.getAttribute("user");
+			if(employee == null) {
+				rd = request.getRequestDispatcher("main.jsp");
+				rd.forward(request, response);
+			}
+		}
 		
 		try {
 			String operation = request.getAttribute("operation").toString();

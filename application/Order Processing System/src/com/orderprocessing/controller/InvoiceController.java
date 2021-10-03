@@ -10,8 +10,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.orderprocessing.entity.Customer;
+import com.orderprocessing.entity.Employee;
 import com.orderprocessing.entity.Invoice;
 import com.orderprocessing.entity.Order;
 import com.orderprocessing.exception.InvoiceNotFoundException;
@@ -27,6 +29,30 @@ public class InvoiceController extends HttpServlet{
 		InvoiceService invoiceService= new InvoiceServiceImpl();
 		String operation = request.getParameter("operation");
 		RequestDispatcher rd = null;
+		Customer customer = null;
+		Employee employee = null;
+		
+		// Check session
+		HttpSession session = request.getSession();
+		String user_type = (String) session.getAttribute("user_type");
+		if(user_type == null) {
+			rd = request.getRequestDispatcher("main.jsp");
+			rd.forward(request, response);
+		}
+		else if (user_type.equals("customer")) {
+			customer = (Customer) session.getAttribute("user");
+			if(customer == null) {
+				rd = request.getRequestDispatcher("main.jsp");
+				rd.forward(request, response);
+			}
+		}
+		else if (user_type.equals("employee")) {
+			employee = (Employee) session.getAttribute("user");
+			if(employee == null) {
+				rd = request.getRequestDispatcher("main.jsp");
+				rd.forward(request, response);
+			}
+		}
 		
 		//1.request to invoice controller pass orderid 
 		if(operation.equals("custInvoice")) {
@@ -58,7 +84,7 @@ public class InvoiceController extends HttpServlet{
 		else if(operation.equals("approveOrder")) {
 			// TO-DO Insert new record into invoice table
 			Order order = (Order) request.getAttribute("order");
-			Customer customer = (Customer) request.getAttribute("customer");
+			customer = (Customer) request.getAttribute("customer");
 			Date currentDate = new Date();
 			float total_value = order.getOrderValue() + order.getShippingCost();
 			try {

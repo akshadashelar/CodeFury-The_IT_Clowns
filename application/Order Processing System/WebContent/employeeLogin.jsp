@@ -1,4 +1,4 @@
-<%@ page language="java" import="java.util.List,com.orderprocessing.controller.EmployeeController" contentType="text/html; charset=ISO-8859-1"
+<%@ page language="java" session="false" import="java.util.List,com.orderprocessing.controller.EmployeeController" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html>

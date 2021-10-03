@@ -33,7 +33,12 @@ public class EmployeeController extends HttpServlet {
 			System.out.println("Login Successful");
 			
 			HttpSession session = request.getSession();
+			if(!session.isNew()) {
+				session.invalidate();
+				session = request.getSession(true);
+			}
 			session.setAttribute("user", employee);
+			session.setAttribute("user_type", "employee");
 			
 			//rd = request.getRequestDispatcher("employeeordermanagement.html");
 			request.setAttribute("operation", "emporder");
